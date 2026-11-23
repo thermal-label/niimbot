@@ -1,0 +1,110 @@
+// niimbot — media catalog
+//
+// A starting set of common roll sizes. Matched by RFID barcode
+// (`skus`) first, then by size.
+//
+// Fields:
+//
+//   key            unique UPPER_SNAKE key
+//   id, name, widthMm, heightMm?, type, category?   contracts MediaDescriptor
+//   targetModels   chassis-family tags matched against a device's
+//                  `mediaCompatibility`: niimbot-d-series,
+//                  niimbot-b-series, niimbot-b-pro-series
+//   labelTypeId    niimbluelib LabelType: 1=WithGaps, 2=Black,
+//                  3=Continuous, 4=Perforated, 5=Transparent,
+//                  10=BlackMarkGap
+//   palette?       inks for multi-colour stock
+//   skus?          RFID barcodes
+[
+  {
+    key: 'D_LABEL_12X22_GAP',
+    id: 'd-label-12x22-gap',
+    name: '12 × 22 mm Die-cut Gap Label',
+    category: 'multi-purpose',
+    type: 'die-cut',
+    widthMm: 12,
+    heightMm: 22,
+    targetModels: ['niimbot-d-series'],
+    labelTypeId: 1,
+  },
+  {
+    key: 'D_LABEL_14X30_GAP',
+    id: 'd-label-14x30-gap',
+    name: '14 × 30 mm Die-cut Gap Label',
+    category: 'multi-purpose',
+    type: 'die-cut',
+    widthMm: 14,
+    heightMm: 30,
+    targetModels: ['niimbot-d-series'],
+    labelTypeId: 1,
+  },
+  {
+    key: 'D_LABEL_15X50_GAP',
+    id: 'd-label-15x50-gap',
+    name: '15 × 50 mm Die-cut Gap Label',
+    category: 'multi-purpose',
+    type: 'die-cut',
+    widthMm: 15,
+    heightMm: 50,
+    targetModels: ['niimbot-d-series'],
+    labelTypeId: 1,
+  },
+  {
+    key: 'B_LABEL_40X30_GAP',
+    id: 'b-label-40x30-gap',
+    name: '40 × 30 mm Die-cut Gap Label',
+    category: 'multi-purpose',
+    type: 'die-cut',
+    widthMm: 40,
+    heightMm: 30,
+    targetModels: ['niimbot-b-series'],
+    labelTypeId: 1,
+  },
+  {
+    key: 'B_LABEL_40X60_GAP',
+    id: 'b-label-40x60-gap',
+    name: '40 × 60 mm Die-cut Gap Label',
+    category: 'shipping',
+    type: 'die-cut',
+    widthMm: 40,
+    heightMm: 60,
+    targetModels: ['niimbot-b-series'],
+    labelTypeId: 1,
+  },
+  {
+    key: 'B_LABEL_50X80_GAP',
+    id: 'b-label-50x80-gap',
+    name: '50 × 80 mm Die-cut Gap Label',
+    category: 'shipping',
+    type: 'die-cut',
+    widthMm: 50,
+    heightMm: 80,
+    targetModels: ['niimbot-b-series'],
+    labelTypeId: 1,
+  },
+  {
+    key: 'B_LABEL_50X80_GAP_RED_BLACK',
+    id: 'b-label-50x80-gap-red-black',
+    name: '50 × 80 mm Die-cut Gap Label, red/black',
+    category: 'shipping',
+    type: 'die-cut',
+    widthMm: 50,
+    heightMm: 80,
+    targetModels: ['niimbot-b-pro-series'],
+    labelTypeId: 1,
+    palette: [
+      { name: 'black', rgb: [0, 0, 0] },
+      { name: 'red', rgb: [255, 0, 0] },
+    ],
+  },
+  {
+    key: 'B_LABEL_50_CONTINUOUS',
+    id: 'b-label-50-continuous',
+    name: '50 mm Continuous Thermal Roll',
+    category: 'continuous',
+    type: 'continuous',
+    widthMm: 50,
+    targetModels: ['niimbot-b-series'],
+    labelTypeId: 3,
+  },
+]

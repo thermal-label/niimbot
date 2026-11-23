@@ -1,0 +1,66 @@
+// niimbot — registry overlay
+//
+// The device registry is generated from niimbluelib's `modelsLibrary`
+// (see scripts/compile-data.mjs). This file holds only what niimbluelib
+// doesn't carry, or gets wrong. Keys are niimbluelib `PrinterModel`
+// names. A model without an entry here still gets a registry entry,
+// unverified.
+//
+// Fields (all optional):
+//
+//   name               display name override (default: `NIIMBOT <model>`)
+//   colors             ['black'] or ['black', 'red']. niimbluelib's model
+//                      metadata has no colour field.
+//   bluetoothPrefix    hand-checked advertised BLE name prefix
+//   serial             true when the chassis exposes a USB CDC-ACM port
+//   mediaCompatibility media `targetModels` tags this chassis accepts
+//   printTask          niimbluelib PrintTaskName override
+//   headDots           correction to niimbluelib's printheadPixels
+//                      (report upstream too)
+//   support            contracts DeviceSupport (legacy roll-up)
+//   verifications      contracts DeviceVerifications (per transport)
+//
+// Verifications are only recorded from runs through this driver.
+// Results from the old protocol stack don't count.
+{
+  D11: {
+    bluetoothPrefix: 'D11',
+    serial: true,
+    colors: ['black'],
+    mediaCompatibility: ['niimbot-d-series'],
+  },
+  D110: {
+    bluetoothPrefix: 'D110',
+    serial: true,
+    colors: ['black'],
+    mediaCompatibility: ['niimbot-d-series'],
+  },
+  D110_M: {
+    name: 'NIIMBOT D110M',
+    bluetoothPrefix: 'D110_M-',
+    serial: true,
+    colors: ['black'],
+    mediaCompatibility: ['niimbot-d-series'],
+  },
+  B1: {
+    bluetoothPrefix: 'B1-',
+    serial: true,
+    colors: ['black'],
+    mediaCompatibility: ['niimbot-b-series'],
+  },
+  B21_PRO: {
+    name: 'NIIMBOT B21 Pro',
+    bluetoothPrefix: 'B21',
+    colors: ['black'],
+    mediaCompatibility: ['niimbot-b-series'],
+  },
+  B2_PRO: {
+    name: 'NIIMBOT B2 Pro',
+    bluetoothPrefix: 'B2 Pro-',
+    serial: true,
+    colors: ['black', 'red'],
+    mediaCompatibility: ['niimbot-b-pro-series', 'niimbot-b-series'],
+    // niimbluelib 0.49.1 says 567; the printer reports 576 in PrinterInfo.
+    headDots: 576,
+  },
+}

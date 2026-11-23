@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.turbo/
+*.tsbuildinfo
+coverage/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+.DS_Store
+.claude/
+
+# Build artifacts emitted by packages/core/scripts/compile-data.mjs
+packages/*/src/*.generated.ts
+packages/*/data/devices.json
+packages/*/data/media.json
+
+# Private bench captures and packet dumps (may contain serials / MACs)
+research/
+
+# Vendor reference PDFs — drafting input only, not ours to redistribute
+*.pdf

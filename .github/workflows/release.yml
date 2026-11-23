@@ -1,0 +1,83 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    name: Publish & Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify version matches tag
+        if: github.event_name == 'push'
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          for pkg in packages/*/package.json; do
+            PKG_VERSION=$(node -p "JSON.parse(require('fs').readFileSync('$pkg','utf8')).version")
+            if [ "$PKG_VERSION" != "$TAG" ]; then
+              echo "❌ Version mismatch in $pkg: expected $TAG, got $PKG_VERSION"
+              exit 1
+            fi
+          done
+          echo "✅ All versions match tag $TAG"
+
+      - name: Determine release channel
+        id: channel
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          if [[ "${{ github.event_name }}" == "push" && "$VERSION" == *-* ]]; then
+            # Prerelease tag (e.g. v0.6.3-debug.0): publish under the
+            # prerelease identifier as an npm dist-tag, never to `latest`.
+            NPM_TAG="${VERSION#*-}"
+            NPM_TAG="${NPM_TAG%%.*}"
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+            echo "npm_tag=$NPM_TAG" >> "$GITHUB_OUTPUT"
+            echo "🔖 Prerelease $VERSION → npm dist-tag '$NPM_TAG'"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+            echo "npm_tag=latest" >> "$GITHUB_OUTPUT"
+            echo "🔖 Stable $VERSION → npm dist-tag 'latest'"
+          fi
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
+
+      - name: Publish
+        run: pnpm publish -r --access public --no-git-checks --provenance --tag ${{ steps.channel.outputs.npm_tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v3
+        with:
+          generate_release_notes: true
+          make_latest: ${{ steps.channel.outputs.prerelease == 'false' }}
+          prerelease: ${{ steps.channel.outputs.prerelease }}

@@ -1,0 +1,74 @@
+{
+  "name": "@thermal-label/niimbot-node",
+  "version": "0.0.0",
+  "description": "Node.js driver (USB serial) for NIIMBOT label printers, built on niimbluelib",
+  "keywords": [
+    "niimbot",
+    "niimbluelib",
+    "label-printer",
+    "thermal-label",
+    "thermal-printer",
+    "serial",
+    "node"
+  ],
+  "type": "module",
+  "author": "MBTech",
+  "license": "MIT",
+  "homepage": "https://thermal-label.github.io/niimbot/node",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thermal-label/niimbot.git",
+    "directory": "packages/node"
+  },
+  "bugs": {
+    "url": "https://github.com/thermal-label/niimbot/issues"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/mannes"
+    },
+    {
+      "type": "ko-fi",
+      "url": "https://ko-fi.com/mannes"
+    }
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@thermal-label/contracts": "^0.6.3",
+    "@thermal-label/niimbot-core": "workspace:*",
+    "@thermal-label/transport": "^0.6.1",
+    "serialport": "^13.0.0"
+  },
+  "devDependencies": {
+    "@mbtech-nl/tsconfig": "^1.1.0",
+    "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "typescript": "~5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

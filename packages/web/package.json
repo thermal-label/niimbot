@@ -1,0 +1,76 @@
+{
+  "name": "@thermal-label/niimbot-web",
+  "version": "0.0.0",
+  "description": "Browser driver (Web Bluetooth, Web Serial) for NIIMBOT label printers, built on niimbluelib",
+  "keywords": [
+    "niimbot",
+    "niimbluelib",
+    "label-printer",
+    "thermal-label",
+    "thermal-printer",
+    "web-bluetooth",
+    "web-serial",
+    "browser"
+  ],
+  "type": "module",
+  "author": "MBTech",
+  "license": "MIT",
+  "homepage": "https://thermal-label.github.io/niimbot/web",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thermal-label/niimbot.git",
+    "directory": "packages/web"
+  },
+  "bugs": {
+    "url": "https://github.com/thermal-label/niimbot/issues"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/mannes"
+    },
+    {
+      "type": "ko-fi",
+      "url": "https://ko-fi.com/mannes"
+    }
+  ],
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@thermal-label/contracts": "^0.6.3",
+    "@thermal-label/niimbot-core": "workspace:*",
+    "@thermal-label/transport": "^0.6.1"
+  },
+  "devDependencies": {
+    "@mbtech-nl/tsconfig": "^1.1.0",
+    "@types/w3c-web-serial": "^1.0.9",
+    "@types/web-bluetooth": "^0.0.22",
+    "@vitest/coverage-v8": "^2.0.0",
+    "jsdom": "^26.0.0",
+    "typescript": "~5.5.0",
+    "vitest": "^2.0.0"
+  }
+}
